@@ -4,8 +4,8 @@
 
 **`> RESOLVE IT. LOCATE IT. EXPOSE IT.`**
 
-![platform](https://img.shields.io/badge/platform-TryHackMe-00ff41?style=for-the-badge&labelColor=000000)
-![path](https://img.shields.io/badge/path-SOC%20Level%201-00ff41?style=for-the-badge&labelColor=000000)
+![platform](https://img.shields.io/badge/type-hands--on%20lab-00ff41?style=for-the-badge&labelColor=000000)
+![path](https://img.shields.io/badge/role-SOC%20analyst-00ff41?style=for-the-badge&labelColor=000000)
 ![focus](https://img.shields.io/badge/focus-IP%20%26%20domain%20intel-00ff41?style=for-the-badge&labelColor=000000)
 ![status](https://img.shields.io/badge/status-pwned-00ff41?style=for-the-badge&labelColor=000000)
 
@@ -15,11 +15,11 @@
 
 ## `$ whoami`
 
-Write-up of the TryHackMe room [IP and Domain Threat Intel](https://tryhackme.com/room/ipanddomainthreatintel) (SOC Level 1, Threat Analysis Tools).
+Write-up of a hands-on lab on IP and domain threat intelligence (SOC analyst workflow, threat analysis tools).
 
-The room teaches how an L1 analyst enriches the two indicators found in almost every alert: **domains** and **IP addresses**. The tools covered are WHOIS, DNS lookups, VirusTotal, BGP.Tools, Censys (and Shodan), TLS certificates, and VPN detection.
+This lab covers how a SOC analyst enriches the two indicators found in almost every alert: **domains** and **IP addresses**. The tools covered are WHOIS, DNS lookups, VirusTotal, BGP.Tools, Censys (and Shodan), TLS certificates, and VPN detection.
 
-> Domain and IP intel changes quickly. Shodan and Censys keep data for only a few weeks, and attacker infrastructure is often taken down within days, so the room supplies exported reports. All screenshots below come from those reports.
+> Domain and IP intel changes quickly. Shodan and Censys keep data for only a few weeks, and attacker infrastructure is often taken down within days, so the lab supplies exported reports. All screenshots below come from those reports.
 
 ## `$ cat targets.txt`
 
@@ -67,15 +67,15 @@ The A records are `188.114.96.0` and `188.114.97.0`, both in **AS13335 (Cloudfla
 
 **Domain age at the time of the alert:** it was created on 2026-05-31 and the alert fired on 2026-06-01, so the domain was only about **1 day old**. Age must be measured against the time of the event, not against today.
 
-A one-day-old domain behind a CDN with a throwaway registration is a textbook sign of freshly prepared attack infrastructure. Legitimate domains like `tryhackme.com` are years old; malicious ones often live only days.
+A one-day-old domain behind a CDN with a throwaway registration is a textbook sign of freshly prepared attack infrastructure. Legitimate business domains are usually years old; malicious ones often live only days.
 
-> Note: when the same domain was queried live months later, the registrar and update dates had changed. This is why the room supplies frozen reports.
+> Note: when the same domain was queried live months later, the registrar and update dates had changed. This is why the lab supplies frozen reports.
 
 ---
 
 ## 📡 2. IP enrichment
 
-The next alert pointed to `2[.]58[.]56[.]50`, a possible C2 server. The standard L1 enrichment is VirusTotal for reputation, then BGP.Tools for the network that owns the IP.
+The next alert pointed to `2[.]58[.]56[.]50`, a possible C2 server. The standard first-line enrichment is VirusTotal for reputation, then BGP.Tools for the network that owns the IP.
 
 ### VirusTotal
 
@@ -157,7 +157,7 @@ A login from the "right" location is not proof of a real user. Services such as 
 | London user, London IP, but the IP belongs to **Mullvad VPN** | **Raise the alarm** | On a VPN the geolocation can no longer be trusted, and the user could be anywhere |
 | London user, London IP, **no VPN match** | **Do not close as a false positive yet** | VPN lists are incomplete. Residential proxies, compromised hosts and new VPNs are missing, so keep investigating |
 
-The analyst workflow used in the room:
+The analyst workflow used in the lab:
 
 1. **Domain:** does it look legitimate or like typosquatting? What is its reputation and age? Resolve it to an IP.
 2. **IP:** is it a CDN range (if so, stop here)? What is its reputation (VirusTotal, AbuseIPDB)? Where is it, and is it a VPN node?
